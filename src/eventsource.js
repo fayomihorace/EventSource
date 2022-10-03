@@ -530,6 +530,10 @@
     var controller = new AbortController();
     var signal = controller.signal;
     var textDecoder = new TextDecoder();
+    console.log('--------------xhr: ', xhr)
+    console.log('--------------url: ', url)
+    console.log('--------------headers: ', headers)
+    console.log('--------------signal: ', signal)
     fetch(url, {
       headers: headers,
       credentials: withCredentials ? "include" : "same-origin",
@@ -557,12 +561,14 @@
         readNextChunk();
       });
     })["catch"](function (error) {
+      console.log('--------------error: ', error)
       if (error.name === "AbortError") {
         return undefined;
       } else {
         return error;
       }
     }).then(function (error) {
+      console.log('--------------onFinishCallbackError: ', error)
       onFinishCallback(error);
     });
     return {
